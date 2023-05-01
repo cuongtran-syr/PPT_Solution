@@ -25,23 +25,16 @@ The structure of the directory before running training or inference should be:
 ```
 example_submission
 ├── data
-│   ├── processed      <- The final, canonical data sets for modeling.
+│   ├── processed      <- submission result folder.
 │   └── raw            <- The original, immutable data dump.
-│       ├── submission_format.csv
-│       ├── test_values.csv
-│       ├── train_labels.csv
-│       └── train_values.csv
-├── models             <- Trained and serialized models, model predictions, or model summaries
+├── models             <- Trained models
 ├── src                <- Source code for use in this project.
 │   ├── __init__.py    <- Makes src a Python module
-│   ├── make_dataset.py
-│   ├── run_inference.py
 │   ├── run_training.py
-│   └── scorer.py
+│   ├── run_submission.py
+│   └── features.py
 ├── README.md          <- The top-level README for developers using this project.
 ├── requirements.txt   <- The requirements file for reproducing the analysis environment
-├── Makefile           <- Makefile with commands like `make requirements`
-└── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
 ```
 
 # Hardware
@@ -64,49 +57,27 @@ $ python src/run_training.py --help
 Usage: run_training.py [OPTIONS]
 
 Options:
-  --features-path PATH            Path to the raw training dataset for
-                                  processing  [default:
-                                  data/raw/train_values.csv]
-  --labels-path PATH              Path to the training labels  [default:
-                                  data/raw/train_labels.csv]
-  --model-save-path PATH          Path to save the trained model weights
-                                  [default: models/random_forest.pkl]
-  --debug / --no-debug            Run on a small subset of the data for
-                                  debugging  [default: no-debug]
-  --help                          Show this message and exit.
+  --airport_name                  airport name
+  --lr                            learning rate, default = 2.5
+  
 ```
 
-By default, trained model weights will be saved to `models/{airportname}_forest.pkl`. The model weights file that is saved out is ~25 MB.
+By default, trained model weights will be saved to `models/v5_model_{airport_name}_{learning_rate}.json`. 
 
-Trained model weights can be downloaded from this Google folder: https://drive.google.com/drive/folders/1LW3PjXh_rL49VuEwj6oK5PuRM5nD5rPj?usp=sharing
 
-You can use `wget` to download the model weights programmatically:
-```
-wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1bmE9oVgi58deRdYicfBzNzNButfzjcjs' -O models/random_forest.pkl
-```
+# Run prediction
 
-# Run inference
-
-To run inference from the command line: `python src/run_inference.py`
+To run inference from the command line: `python src/run_submission.py`
 
 ```
 $ python src/run_inference.py --help
 Usage: run_inference.py [OPTIONS]
 
 Options:
-  --model-path PATH               Path to the saved model weights  [default:
-                                  models/random_forest.pkl]
-  --features-path PATH            Path to the test features  [default:
-                                  data/raw/test_values.csv]
-  --submission-save-path PATH     Path to save the generated submission
-                                  [default: data/processed/submission.csv]
-  --submission-format-path PATH   Path to the submission format csv  [default:
-                                  data/raw/submission_format.csv]
-  --debug / --no-debug            Run on a small subset of the data for
-                                  debugging  [default: no-debug]
-  --help                          Show this message and exit.
+  --airport_name                  airport name
+  --lr                            learning rate, default = 2.5
 ```
 
-By default, predictions will be saved out to `data/processed/submission.csv`.
+By default, predictions will be saved out to `data/processed/submission_{airport_name}_{learning_rate}.csv`.
 
 --------

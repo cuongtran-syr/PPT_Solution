@@ -76,14 +76,13 @@ def get_perf(airport_name, lr):
 
 
     model = xgboost.XGBRegressor()
-    model.load_model('models/v5_model_{}_{}.json'.format(airport_name, lr ))
+    model.load_model(model_file_name)
 
     y_pred = model.predict(submission_pd[new_features])
     submission_pd['minutes_until_pushback'] = y_pred
     submission_pd['minutes_until_pushback'] = submission_pd['minutes_until_pushback'].apply(lambda x: max(int(x), 1))
 
     submission_pd.to_csv(sub_file_name, index=False)
-    model.save_model(model_file_name)
 
 def main():
    starttime = time.time()
