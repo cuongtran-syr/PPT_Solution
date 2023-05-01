@@ -1,5 +1,4 @@
 from features import *
-from qa_features import  *
 import argparse, time, os, sys, pickle
 import pandas as pd
 import numpy as np
@@ -53,18 +52,6 @@ def get_perf(airport_name, lr):
     label_pd, num_dep_feat_dict = get_num_dep_flights(label_pd, airport_name=airport_name)
     features +=num_dep_feat_dict['numeric'] + num_dep_feat_dict['cat']
     cat_features += num_dep_feat_dict['cat']
-    label_pd['airline'] = label_pd['gufi'].apply(get_airline)
-    label_pd, feat_dict = get_departure_mfs_count_fts(label_pd, airport_name)
-    features += feat_dict['numeric'] + feat_dict['cat']
-    cat_features += feat_dict['cat']
-
-    ############
-    label_pd, feat_dict = get_arrival_mfs_count_fts(label_pd, airport_name)
-    features += feat_dict['numeric'] + feat_dict['cat']
-    cat_features += feat_dict['cat']
-    label_pd, feat_dict = get_number_active_runways(label_pd, airport_name)
-    features += feat_dict['numeric'] + feat_dict['cat']
-    cat_features += feat_dict['cat']
 
     values = {v: -1 for v in features if v not in cat_features}
     for v in cat_features:
