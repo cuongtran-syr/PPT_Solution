@@ -4,8 +4,7 @@ Username: cuongk14
 
 ## Summary
 
-The solution is based on constructing an XGBoost regressor model for each airport separately. We perform feature engineering based on all tables to extract 
-informative features. The features combined with the groundtruth label  in training data is used to learn the XGBoost model. 
+The solution is based on constructing an XGBoost regressor model for each airport separately. In total, we have 10 XGBoost models. We perform feature engineering based on all tables to extract informative features. The features combined with the groundtruth label  in training data is used to learn the XGBoost model. 
 
 # Setup
 
